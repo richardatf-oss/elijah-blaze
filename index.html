@@ -1,1 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Elijah Blaze | Enter the Cube</title>
+
+  <meta
+    name="description"
+    content="Elijah Blaze is a YA video game and story universe of living fire, broken geometry, ancient patterns, and the battle against the Shards."
+  />
+
+  <style>
+    :root {
+      --bg: #06070d;
+      --bg-soft: #0d101c;
+      --bg-card: rgba(255, 255, 255, 0.055);
+      --text: #fff7ea;
+      --muted: #c9bdad;
+      --gold: #ffbf47;
+      --gold-soft: rgba(255, 191, 71, 0.18);
+      --ember: #ff5d2e;
+      --ember-soft: rgba(255, 93, 46, 0.22);
+      --blue: #48d9ff;
+      --blue-soft: rgba(72, 217, 255, 0.16);
+      --line: rgba(255, 255, 255, 0.13);
+      --shadow: rgba(0, 0, 0, 0.5);
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255, 93, 46, 0.20), transparent 28rem),
+        radial-gradient(circle at 88% 12%, rgba(72, 217, 255, 0.16), transparent 30rem),
+        radial-gradient(circle at 50% 80%, rgba(255, 191, 71, 0.10), transparent 34rem),
+        var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at center, black, transparent 72%);
+      opacity: 0.26;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(6, 7, 13, 0.82);
+      backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid rgba(255, 191, 71, 0.45);
+      border-radius: 50%;
+      color: var(--gold);
+      background:
+        radial-gradient(circle, rgba(255, 191, 71, 0.24), transparent 60%),
+        rgba(255, 255, 255, 0.04);
+      box-shadow: 0 0 24px rgba(255, 191, 71, 0.24);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    nav a {
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(255, 191, 71, 0.45);
+    }
+
+    .hero {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      align-items: center;
+      gap: 3rem;
+      padding: 5rem 0 4rem;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow,
+    .section-label {
+      margin: 0 0 0.85rem;
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 1.2rem;
+      font-size: clamp(3rem, 7.7vw, 6.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    h1 span {
+      color: var(--gold);
+      text-shadow:
+        0 0 24px rgba(255, 191, 71, 0.38),
+        0 0 50px rgba(255, 93, 46, 0.22);
+    }
+
+    h2 {
+      max-width: 840px;
+      margin-bottom: 1rem;
+      font-size: clamp(2rem, 4.3vw, 4.2rem);
+      line-height: 1.03;
+      letter-spacing: -0.052em;
+    }
+
+    h3 {
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    .hero-text {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .button,
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.1rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .button:hover,
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary,
+    button {
+      color: #170904;
+      background: linear-gradient(135deg, var(--gold), var(--ember));
+      box-shadow:
+        0 0 36px rgba(255, 93, 46, 0.28),
+        0 14px 34px rgba(0, 0, 0, 0.25);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .button.secondary:hover {
+      border-color: rgba(255, 191, 71, 0.45);
+      box-shadow: 0 0 28px rgba(255, 191, 71, 0.12);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 620px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 88%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(255, 93, 46, 0.22), transparent 58%),
+        radial-gradient(circle, rgba(72, 217, 255, 0.12), transparent 68%);
+      filter: blur(8px);
+      opacity: 0.95;
+    }
+
+    .hero-image-frame {
+      position: relative;
+      overflow: hidden;
+      width: min(100%, 560px);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 34px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02)),
+        rgba(13, 16, 28, 0.82);
+      box-shadow:
+        0 0 55px rgba(255, 93, 46, 0.22),
+        0 28px 100px rgba(0, 0, 0, 0.62);
+    }
+
+    .hero-image-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, transparent 62%, rgba(6, 7, 13, 0.45)),
+        radial-gradient(circle at 50% 12%, rgba(255, 191, 71, 0.14), transparent 28%);
+    }
+
+    .hero-character {
+      width: 100%;
+      height: auto;
+    }
+
+    .status-strip {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .status-inner {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+    }
+
+    .status-item {
+      padding: 1.25rem 1rem;
+      border-left: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.96rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .status-item:last-child {
+      border-right: 1px solid var(--line);
+    }
+
+    .status-item strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 6rem 0;
+    }
+
+    .section.full {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 6rem 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 191, 71, 0.12), transparent 32rem),
+        var(--bg-soft);
+    }
+
+    .section-inner {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .section p,
+    .section-inner p {
+      max-width: 790px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      position: relative;
+      min-height: 190px;
+      padding: 1.4rem;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+        var(--bg-card);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40% auto auto -20%;
+      width: 12rem;
+      height: 12rem;
+      border-radius: 50%;
+      background: rgba(255, 93, 46, 0.13);
+      filter: blur(28px);
+    }
+
+    .card p {
+      position: relative;
+      color: var(--muted);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .quote-card {
+      padding: 2rem;
+      border: 1px solid rgba(255, 191, 71, 0.24);
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 93, 46, 0.18), transparent 20rem),
+        rgba(255, 255, 255, 0.05);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    }
+
+    .quote-card p {
+      max-width: none;
+      margin-bottom: 0;
+      color: var(--text);
+      font-size: clamp(1.45rem, 3vw, 2.35rem);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .book-list,
+    .codex-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .book-item,
+    .codex-item {
+      display: grid;
+      grid-template-columns: 0.3fr 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .book-number,
+    .codex-mark {
+      display: grid;
+      place-items: center;
+      min-height: 4rem;
+      border-radius: 18px;
+      color: var(--gold);
+      background:
+        radial-gradient(circle, rgba(255, 191, 71, 0.20), transparent 65%),
+        rgba(255, 255, 255, 0.04);
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .book-item h3,
+    .codex-item h3 {
+      margin-bottom: 0.25rem;
+    }
+
+    .book-item p,
+    .codex-item p {
+      margin-bottom: 0;
+      max-width: none;
+    }
+
+    .signal {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 6rem 0;
+    }
+
+    .signal-box {
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      border: 1px solid rgba(255, 191, 71, 0.26);
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 93, 46, 0.20), transparent 28rem),
+        radial-gradient(circle at 90% 80%, rgba(72, 217, 255, 0.15), transparent 26rem),
+        rgba(255, 255, 255, 0.05);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.26);
+    }
+
+    .signal-box p {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .signup-form {
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: rgba(6, 7, 13, 0.52);
+    }
+
+    label {
+      display: grid;
+      gap: 0.45rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 3.2rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: var(--text);
+      background: rgba(6, 7, 13, 0.76);
+      font: inherit;
+    }
+
+    input:focus {
+      outline: 2px solid rgba(255, 191, 71, 0.52);
+      border-color: var(--gold);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .footer-inner {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 2rem 0;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .split,
+      .signal-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .hero-image-frame {
+        width: min(100%, 500px);
+      }
+
+      .status-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: clamp(2.85rem, 17vw, 4.4rem);
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .button,
+      button {
+        width: 100%;
+      }
+
+      .status-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .status-item {
+        border-right: 1px solid var(--line);
+      }
+
+      .book-item,
+      .codex-item {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="Elijah Blaze home">
+        <span class="brand-mark">ϟ</span>
+        <span>Elijah Blaze</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a href="#game">Game</a>
+        <a href="#books">Books</a>
+        <a href="#codex">Codex</a>
+        <a href="#signal">Signal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">A YA Game & Story Universe</p>
+
+        <h1>
+          Enter the Cube.<br />
+          Face the Shards.<br />
+          <span>Become the Fire.</span>
+        </h1>
+
+        <p class="hero-text">
+          Elijah Blaze is a young adult video game and story universe of living fire,
+          broken geometry, ancient patterns, and one hero standing between the world
+          and the things that crawl out of fracture.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button primary" href="#signal">Join the Blaze Signal</a>
+          <a class="button secondary" href="#codex">Explore the Universe</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Elijah Blaze hero artwork">
+        <div class="hero-image-frame">
+          <img
+            src="elijah-blaze-hero%20(2).png"
+            alt="Elijah Blaze armored hero with fire and a glowing geometric aura"
+            class="hero-character"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="status-strip" aria-label="Project status">
+      <div class="status-inner">
+        <div class="status-item">
+          <strong>Game</strong>
+          In Development
+        </div>
+
+        <div class="status-item">
+          <strong>Books</strong>
+          YA Series Coming Soon
+        </div>
+
+        <div class="status-item">
+          <strong>Codex</strong>
+          Lore Archive Opening
+        </div>
+
+        <div class="status-item">
+          <strong>Signal</strong>
+          Updates Ahead
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="split">
+        <div>
+          <p class="section-label">Meet Elijah Blaze</p>
+
+          <h2>The fire is not just power. It is a calling.</h2>
+
+          <p>
+            Elijah Blaze stands at the edge of a hidden war where symbols wake,
+            patterns break, and courage becomes more than a feeling. The Cube has
+            opened. The Shards are moving. And Elijah is beginning to understand
+            that the flame chose him for a reason.
+          </p>
+        </div>
+
+        <div class="quote-card">
+          <p>
+            He is not just wearing fire.<br />
+            He is learning what fire is for.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>The Flame</h3>
+          <p>
+            A living force that grows through courage, discipline, and the choice
+            to stand when fear says run.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>The Cube</h3>
+          <p>
+            An ancient pattern. A prison. A map. Maybe all three. Its geometry
+            hides doors no ordinary world was meant to open.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>The Shards</h3>
+          <p>
+            Enemies born from fracture, shadow, and stolen light. They do not merely
+            attack the world. They try to break its meaning.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section full" id="game">
+      <div class="section-inner">
+        <p class="section-label">The Game</p>
+
+        <h2>A world is breaking. Elijah is the spark.</h2>
+
+        <p>
+          The Elijah Blaze game is in early development: a sci-fi fantasy action
+          adventure built around exploration, glyph-based powers, Shardling enemies,
+          fire abilities, and the mystery of the Cube.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Action Adventure</h3>
+            <p>
+              Explore strange realms, unlock new powers, and battle creatures that
+              emerge from broken light.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Glyph-Based Power</h3>
+            <p>
+              Fire, geometry, and symbolic abilities become part of Elijah’s growing
+              arsenal as the pattern reveals itself.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Prototype Journey</h3>
+            <p>
+              Follow the development from early character tests and enemy designs to
+              playable builds, trailers, and launch news.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="books">
+      <p class="section-label">The Books</p>
+
+      <h2>The story begins before the first battle.</h2>
+
+      <p>
+        Elijah Blaze is also being shaped as a YA book universe: fast, mythic,
+        emotional, and strange enough to leave scorch marks on the imagination.
+      </p>
+
+      <div class="book-list">
+        <article class="book-item">
+          <div class="book-number">Book 1</div>
+          <div>
+            <h3>Elijah Blaze and the Shattered Cube</h3>
+            <p>
+              The opening adventure, where Elijah discovers that the impossible has
+              been waiting for him.
+            </p>
+          </div>
+        </article>
+
+        <article class="book-item">
+          <div class="book-number">Book 2</div>
+          <div>
+            <h3>Elijah Blaze and the Gate of Fire</h3>
+            <p>
+              The flame grows stronger, but so do the enemies gathering beyond the
+              pattern.
+            </p>
+          </div>
+        </article>
+
+        <article class="book-item">
+          <div class="book-number">Book 3</div>
+          <div>
+            <h3>Elijah Blaze and the Last Geometry</h3>
+            <p>
+              The final shape is hidden, and the cost of finding it may change every
+              world the Cube has touched.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section full" id="codex">
+      <div class="section-inner">
+        <p class="section-label">The Blaze Codex</p>
+
+        <h2>Every legend needs an archive.</h2>
+
+        <p>
+          The Blaze Codex will collect the lore of Elijah’s world: the Cube, the
+          Shardlings, the Flame Glyphs, the Seven Gates, hidden realms, strange
+          allies, and the enemies waiting beyond the pattern.
+        </p>
+
+        <div class="codex-grid">
+          <article class="codex-item">
+            <div class="codex-mark">I</div>
+            <div>
+              <h3>The Cube</h3>
+              <p>
+                The central mystery: a living pattern of doors, prisons, echoes,
+                and impossible maps.
+              </p>
+            </div>
+          </article>
+
+          <article class="codex-item">
+            <div class="codex-mark">II</div>
+            <div>
+              <h3>The Shardlings</h3>
+              <p>
+                Fracture-born enemies that move like broken reflections and hunger
+                for stolen light.
+              </p>
+            </div>
+          </article>
+
+          <article class="codex-item">
+            <div class="codex-mark">III</div>
+            <div>
+              <h3>The Flame Glyphs</h3>
+              <p>
+                Symbols that do not merely represent power. They remember it, focus
+                it, and awaken it.
+              </p>
+            </div>
+          </article>
+
+          <article class="codex-item">
+            <div class="codex-mark">IV</div>
+            <div>
+              <h3>The Seven Gates</h3>
+              <p>
+                Thresholds hidden in the deep structure of Elijah’s world, each one
+                guarded by a different kind of trial.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="signal" id="signal">
+      <div class="signal-box">
+        <div>
+          <p class="section-label">Join the Blaze Signal</p>
+
+          <h2>Get updates from inside the Cube.</h2>
+
+          <p>
+            Receive updates on the game, the books, the Codex, early art, prototype
+            progress, and first looks at the Elijah Blaze universe.
+          </p>
+        </div>
+
+        <form name="blaze-signal" method="POST" data-netlify="true" class="signup-form">
+          <input type="hidden" name="form-name" value="blaze-signal" />
+
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+            />
+          </label>
+
+          <button type="submit">Join the Signal</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 Elijah Blaze. A LuminaNexus story universe.</p>
+
+      <div class="footer-links">
+        <a href="#game">Game</a>
+        <a href="#books">Books</a>
+        <a href="#codex">Codex</a>
+        <a href="#signal">Signal</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
